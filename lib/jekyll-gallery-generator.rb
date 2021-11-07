@@ -232,7 +232,8 @@ module Jekyll
       puts ""
 
       begin
-        sort_field = gallery_config["sort_field"] || "date_time"
+        sort_field = gallery_config["sort_field"] || config["default_image_sort"] || "date_time"
+        puts "sorting by #{sort_field}"
         if sort_field == "date_time"
           @images.sort!
         elsif sort_field == "name"
