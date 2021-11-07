@@ -180,7 +180,7 @@ module Jekyll
       thumbs_dir = File.join(site.dest, @dest_dir, "thumbs")
       FileUtils.mkdir_p(thumbs_dir, :mode => 0755)
       date_times = {}
-      entries = Dir.entries(dir)
+      entries = Dir.entries(dir).sort
       entries.each_with_index do |name, i|
         next if name.chars.first == "."
         next unless name.downcase().end_with?(*$image_extensions)
