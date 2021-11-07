@@ -7,6 +7,12 @@ include FileUtils
 
 $image_extensions = [".png", ".jpg", ".jpeg", ".gif", ".bmp"]
 
+class String
+  def naturalized
+    scan(/[^\d\.]+|[\d\.]+/).collect { |f| f.match(/\d+(\.\d+)?/) ? f.to_f : f }
+  end
+end
+
 module Jekyll
   class GalleryImage
     include Comparable
@@ -238,6 +244,8 @@ module Jekyll
           @images.sort!
         elsif sort_field == "name"
           @images.sort! {|a,b| cmp = a.name <=> b.name}
+        elsif sort_field == "naturalized"
+          @images.sort! {|a,b| cmp = a.name.naturalized <=> b.name.naturalized}
         else
           puts "Invalid sort_field for gallery #{gallery_name}: #{sort_field}. Sorting by datetime."
           @images.sort!
