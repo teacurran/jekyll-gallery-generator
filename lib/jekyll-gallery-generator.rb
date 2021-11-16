@@ -39,6 +39,16 @@ module Jekyll
       return @date_time
     end
 
+    def display_dimensions
+      return @dimensions if defined? @dimensions
+      @dimensions = nil
+      begin
+        img = Magick::ImageList.new(@path).auto_orient
+        @dimensions = {'width' => img.columns, 'height' => img.rows}
+      end
+      return @dimensions
+    end
+
     def exif
       return @exif if defined? @exif
       @exif = nil
@@ -63,6 +73,7 @@ module Jekyll
         'src' => @name,
         'date_time' => @date_time,
         'exif' => @exif && @exif.to_hash.collect{|k,v| [k.to_s, v]}.to_h,
+        'display_dimensions' => display_dimensions
       }
     end
   end
