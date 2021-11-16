@@ -43,8 +43,12 @@ module Jekyll
       return @dimensions if defined? @dimensions
       @dimensions = nil
       begin
-        img = Magick::ImageList.new(@path).auto_orient
-        @dimensions = {'width' => img.columns, 'height' => img.rows}
+        img = Magick::Image.ping(@path).first
+        if img.orientation == RightTopOrientation          
+          @dimensions = {'width' => img.rows, 'height' => img.columns}
+        else
+          @dimensions = {'width' => img.columns, 'height' => img.rows}
+        end
         img.destroy!
       end
       return @dimensions
