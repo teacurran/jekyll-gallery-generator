@@ -45,6 +45,7 @@ module Jekyll
       begin
         img = Magick::ImageList.new(@path).auto_orient
         @dimensions = {'width' => img.columns, 'height' => img.rows}
+        img.destroy!
       end
       return @dimensions
     end
